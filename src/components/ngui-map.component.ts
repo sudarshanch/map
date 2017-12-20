@@ -134,6 +134,7 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
           });
         }
       });
+      
 
       // update map when input changes
       debounceTime.call(this.inputChanges$, 1000)
