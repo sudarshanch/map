@@ -1,6 +1,6 @@
 {
   "name": "@nguicustom/map",
-  "version": "0.20.1",
+  "version": "0.21.0",
   "description": "Angular2 Google Map`",
   "license": "MIT",
   "main": "dist/bundles/map.umd.js",
