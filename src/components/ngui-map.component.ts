@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   EventEmitter,
   SimpleChanges,
+  Input,
   Output,
   NgZone,
   AfterViewInit, AfterViewChecked, OnChanges, OnDestroy
@@ -55,7 +56,8 @@ const OUTPUTS = [
 })
 export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, AfterViewChecked {
   @Output() public mapReady$: EventEmitter<any> = new EventEmitter();
-
+  @Input() location: any;
+  @Output() public locationChange : EventEmitter<any> = new EventEmitter();
   public el: HTMLElement;
   public map: google.maps.Map;
   public mapOptions: google.maps.MapOptions = {};
@@ -102,6 +104,7 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
   }
 
   initializeMap(): void {
+    let ref = this;
     this.el = this.elementRef.nativeElement.querySelector('.google-map');
     if (this.el && this.el.offsetWidth === 0) {
         this.initializeMapAfterDisplayed = true;
@@ -133,6 +136,15 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
             this.mapReady$.emit(this.map);
           });
         }
+      });
+
+      this.map.addListener('zoom_changed', function () {
+        let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: ref.map.getCenter().lat() , lng: ref.map.getCenter().lng()};
+        ref.locationChange.emit(locationChangeInfo);
+      });
+      this.map.addListener('dragend', function () {
+        let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: ref.map.getCenter().lat() , lng: ref.map.getCenter().lng()};
+        ref.locationChange.emit(locationChangeInfo);
       });
 
       // update map when input changes
