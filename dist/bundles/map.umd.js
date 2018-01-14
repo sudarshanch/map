@@ -879,11 +879,11 @@ var NguiMapComponent = /** @class */ (function () {
                 }
             });
             _this.map.addListener('zoom_changed', function () {
-                var /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
+                var /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: (ref.map.getCenter() && ref.map.getCenter().lat()) ? ref.map.getCenter().lat() : '', lng: (ref.map.getCenter() && ref.map.getCenter().lng()) ? ref.map.getCenter().lng() : '' };
                 ref.locationChange.emit(locationChangeInfo);
             });
             _this.map.addListener('dragend', function () {
-                var /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
+                var /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: (ref.map.getCenter() && ref.map.getCenter().lat()) ? ref.map.getCenter().lat() : '', lng: (ref.map.getCenter() && ref.map.getCenter().lng()) ? ref.map.getCenter().lng() : '' };
                 ref.locationChange.emit(locationChangeInfo);
             });
             // update map when input changes

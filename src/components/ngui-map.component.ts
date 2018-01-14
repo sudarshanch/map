@@ -139,11 +139,11 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
       });
 
       this.map.addListener('zoom_changed', () => {
-          let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: ref.map.getCenter().lat() , lng: ref.map.getCenter().lng()};
+          let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: (ref.map.getCenter() && ref.map.getCenter().lat()) ? ref.map.getCenter().lat()  : '', lng: (ref.map.getCenter() && ref.map.getCenter().lng()) ? ref.map.getCenter().lng() : ''};
           ref.locationChange.emit(locationChangeInfo);
       });
       this.map.addListener('dragend', () => {
-          let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: ref.map.getCenter().lat() , lng: ref.map.getCenter().lng()};
+          let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: (ref.map.getCenter() && ref.map.getCenter().lat()) ? ref.map.getCenter().lat()  : '', lng: (ref.map.getCenter() && ref.map.getCenter().lng()) ? ref.map.getCenter().lng() : ''};
           ref.locationChange.emit(locationChangeInfo);     
       });
 
