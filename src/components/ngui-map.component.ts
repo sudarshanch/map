@@ -104,7 +104,6 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
   }
 
   initializeMap(): void {
-    let ref = this;
     this.el = this.elementRef.nativeElement.querySelector('.google-map');
     if (this.el && this.el.offsetWidth === 0) {
         this.initializeMapAfterDisplayed = true;
@@ -134,18 +133,19 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
           this.mapIdledOnce = true;
           setTimeout(() => { // Why????, subsribe and emit must not be in the same cycle???
             this.mapReady$.emit(this.map);
+            this.map.addListener('zoom_changed', () => {
+              let locationChangeInfo = {'zoom' : this.map.getZoom(), lat: this.map.getCenter().lat() , lng: this.map.getCenter().lng()};
+              this.locationChange.emit(locationChangeInfo);
+             });
+            this.map.addListener('dragend', () => {
+              let locationChangeInfo = {'zoom' : this.map.getZoom(), lat: this.map.getCenter().lat() , lng: this.map.getCenter().lng()};
+              this.locationChange.emit(locationChangeInfo);
+            });
           });
         }
       });
 
-      this.map.addListener('zoom_changed', function () {
-        let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: ref.map.getCenter().lat() , lng: ref.map.getCenter().lng()};
-        ref.locationChange.emit(locationChangeInfo);
-      });
-      this.map.addListener('dragend', function () {
-        let locationChangeInfo = {'zoom' : ref.map.getZoom(), lat: ref.map.getCenter().lat() , lng: ref.map.getCenter().lng()};
-        ref.locationChange.emit(locationChangeInfo);
-      });
+
 
       // update map when input changes
       debounceTime.call(this.inputChanges$, 1000)
