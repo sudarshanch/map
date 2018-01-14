@@ -857,16 +857,12 @@ class NguiMapComponent {
                 }
             });
             this.map.addListener('zoom_changed', () => {
-                if (ref && ref.map && ref.map.getCenter() && ref.map.getCenter().lat() && ref.map.getCenter().lng()) {
-                    let /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
-                    ref.locationChange.emit(locationChangeInfo);
-                }
+                let /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
+                ref.locationChange.emit(locationChangeInfo);
             });
             this.map.addListener('dragend', () => {
-                if (ref && ref.map && ref.map.getCenter() && ref.map.getCenter().lat() && ref.map.getCenter().lng()) {
-                    let /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
-                    ref.locationChange.emit(locationChangeInfo);
-                }
+                let /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
+                ref.locationChange.emit(locationChangeInfo);
             });
             // update map when input changes
             debounceTime$1.call(this.inputChanges$, 1000)
