@@ -853,12 +853,16 @@ class NguiMapComponent {
                     setTimeout(() => {
                         this.mapReady$.emit(this.map);
                         this.map.addListener('zoom_changed', () => {
-                            let /** @type {?} */ locationChangeInfo = { 'zoom': this.map.getZoom(), lat: this.map.getCenter().lat(), lng: this.map.getCenter().lng() };
-                            this.locationChange.emit(locationChangeInfo);
+                            if (this.map.getCenter() && this.map.getCenter().lat() && this.map.getZoom() && this.map.getCenter().lng()) {
+                                let /** @type {?} */ locationChangeInfo = { 'zoom': this.map.getZoom(), lat: this.map.getCenter().lat(), lng: this.map.getCenter().lng() };
+                                this.locationChange.emit(locationChangeInfo);
+                            }
                         });
                         this.map.addListener('dragend', () => {
-                            let /** @type {?} */ locationChangeInfo = { 'zoom': this.map.getZoom(), lat: this.map.getCenter().lat(), lng: this.map.getCenter().lng() };
-                            this.locationChange.emit(locationChangeInfo);
+                            if (this.map.getCenter() && this.map.getCenter().lat() && this.map.getZoom() && this.map.getCenter().lng()) {
+                                let /** @type {?} */ locationChangeInfo = { 'zoom': this.map.getZoom(), lat: this.map.getCenter().lat(), lng: this.map.getCenter().lng() };
+                                this.locationChange.emit(locationChangeInfo);
+                            }
                         });
                     });
                 }

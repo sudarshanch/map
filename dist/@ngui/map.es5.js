@@ -876,12 +876,16 @@ var NguiMapComponent = /** @class */ (function () {
                     setTimeout(function () {
                         _this.mapReady$.emit(_this.map);
                         _this.map.addListener('zoom_changed', function () {
-                            var /** @type {?} */ locationChangeInfo = { 'zoom': _this.map.getZoom(), lat: _this.map.getCenter().lat(), lng: _this.map.getCenter().lng() };
-                            _this.locationChange.emit(locationChangeInfo);
+                            if (_this.map.getCenter() && _this.map.getCenter().lat() && _this.map.getZoom() && _this.map.getCenter().lng()) {
+                                var /** @type {?} */ locationChangeInfo = { 'zoom': _this.map.getZoom(), lat: _this.map.getCenter().lat(), lng: _this.map.getCenter().lng() };
+                                _this.locationChange.emit(locationChangeInfo);
+                            }
                         });
                         _this.map.addListener('dragend', function () {
-                            var /** @type {?} */ locationChangeInfo = { 'zoom': _this.map.getZoom(), lat: _this.map.getCenter().lat(), lng: _this.map.getCenter().lng() };
-                            _this.locationChange.emit(locationChangeInfo);
+                            if (_this.map.getCenter() && _this.map.getCenter().lat() && _this.map.getZoom() && _this.map.getCenter().lng()) {
+                                var /** @type {?} */ locationChangeInfo = { 'zoom': _this.map.getZoom(), lat: _this.map.getCenter().lat(), lng: _this.map.getCenter().lng() };
+                                _this.locationChange.emit(locationChangeInfo);
+                            }
                         });
                     });
                 }

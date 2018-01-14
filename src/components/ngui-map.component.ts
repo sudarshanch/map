@@ -134,12 +134,16 @@ export class NguiMapComponent implements OnChanges, OnDestroy, AfterViewInit, Af
           setTimeout(() => { // Why????, subsribe and emit must not be in the same cycle???
             this.mapReady$.emit(this.map);
             this.map.addListener('zoom_changed', () => {
-              let locationChangeInfo = {'zoom' : this.map.getZoom(), lat: this.map.getCenter().lat() , lng: this.map.getCenter().lng()};
-              this.locationChange.emit(locationChangeInfo);
+              if(this.map.getCenter() && this.map.getCenter().lat()  && this.map.getZoom() && this.map.getCenter().lng()) {
+                let locationChangeInfo = {'zoom' : this.map.getZoom(), lat: this.map.getCenter().lat() , lng: this.map.getCenter().lng()};
+                this.locationChange.emit(locationChangeInfo);
+              }
              });
             this.map.addListener('dragend', () => {
-              let locationChangeInfo = {'zoom' : this.map.getZoom(), lat: this.map.getCenter().lat() , lng: this.map.getCenter().lng()};
-              this.locationChange.emit(locationChangeInfo);
+              if(this.map.getCenter() && this.map.getCenter().lat() && this.map.getZoom() && this.map.getCenter().lng()) {
+                let locationChangeInfo = {'zoom' : this.map.getZoom(), lat: this.map.getCenter().lat() , lng: this.map.getCenter().lng()};
+                this.locationChange.emit(locationChangeInfo);
+              }
             });
           });
         }
