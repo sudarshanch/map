@@ -853,6 +853,7 @@ var NguiMapComponent = /** @class */ (function () {
      */
     NguiMapComponent.prototype.initializeMap = function () {
         var _this = this;
+        var /** @type {?} */ ref = this;
         this.el = this.elementRef.nativeElement.querySelector('.google-map');
         if (this.el && this.el.offsetWidth === 0) {
             this.initializeMapAfterDisplayed = true;
@@ -875,19 +876,19 @@ var NguiMapComponent = /** @class */ (function () {
                     _this.mapIdledOnce = true;
                     setTimeout(function () {
                         _this.mapReady$.emit(_this.map);
-                        _this.map.addListener('zoom_changed', function () {
-                            if (_this.map.getCenter() && _this.map.getCenter().lat() && _this.map.getZoom() && _this.map.getCenter().lng()) {
-                                var /** @type {?} */ locationChangeInfo = { 'zoom': _this.map.getZoom(), lat: _this.map.getCenter().lat(), lng: _this.map.getCenter().lng() };
-                                _this.locationChange.emit(locationChangeInfo);
-                            }
-                        });
-                        _this.map.addListener('dragend', function () {
-                            if (_this.map.getCenter() && _this.map.getCenter().lat() && _this.map.getZoom() && _this.map.getCenter().lng()) {
-                                var /** @type {?} */ locationChangeInfo = { 'zoom': _this.map.getZoom(), lat: _this.map.getCenter().lat(), lng: _this.map.getCenter().lng() };
-                                _this.locationChange.emit(locationChangeInfo);
-                            }
-                        });
                     });
+                }
+            });
+            _this.map.addListener('zoom_changed', function () {
+                if (ref && ref.map && ref.map.getCenter() && ref.map.getCenter().lat() && ref.map.getCenter().lng()) {
+                    var /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
+                    ref.locationChange.emit(locationChangeInfo);
+                }
+            });
+            _this.map.addListener('dragend', function () {
+                if (ref && ref.map && ref.map.getCenter() && ref.map.getCenter().lat() && ref.map.getCenter().lng()) {
+                    var /** @type {?} */ locationChangeInfo = { 'zoom': ref.map.getZoom(), lat: ref.map.getCenter().lat(), lng: ref.map.getCenter().lng() };
+                    ref.locationChange.emit(locationChangeInfo);
                 }
             });
             // update map when input changes
